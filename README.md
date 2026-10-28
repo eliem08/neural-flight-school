@@ -2,44 +2,22 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/eliem08/neural-flight-school/blob/main/colab.ipynb)
 
+A hands-on, tiny-transformer lab for learning causal attention, tensor shapes, and visualization without downloading pretrained weights.
 
-Educational tiny transformer that plots hidden states and attention shapes without downloading a pretrained model.
+## Attention lab
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![PyTorch](https://img.shields.io/badge/PyTorch-GPU%20or%20CPU-ee4c2c)
+    pip install -r requirements.txt
+    python attention_lab.py --text "attention is a computation"
+
+Exports one attention heatmap per layer plus outputs/attention-lab/report.json. Uses a seeded, randomly initialized model and byte-derived token IDs to keep the example self-contained.
+
+    python attention_lab.py --text "hello transformer" --device cuda --seed 7
+
+The visualizations are intentionally educational: because the model is untrained, they do not show learned linguistic behavior. Try changing width, heads, and layers in TinyAttentionModel and inspect the attention tensor shapes.
 
 ## Quickstart
 
-```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python main.py
-```
-
-Default run uses a tiny randomly initialized model to validate the software path and does not claim useful model behavior.
-
-## Use a pretrained model
-
-Set `NEURONLAB_MODEL` or pass `--real-model --model-id MODEL_ID`. For example, select a small causal language model you are licensed to use:
-
-```bash
-python main.py --real-model --model-id distilgpt2 --text "The sky is"
-```
-
-Model weights take disk, RAM, and often VRAM. The runtime detects CUDA, Apple MPS, or CPU automatically. Install the appropriate PyTorch build for your hardware if needed.
-
-## Google Colab
-
-Open `colab.ipynb` in Colab, select **Runtime → Change runtime type → T4 GPU** when available, then run all cells. The same notebook also runs on CPU, but inference is slower. Free GPU availability and quotas vary.
-
-## Reproducibility and limitations
-
-- Save output artifacts under `outputs/`. Repeat experiments on held-out inputs before making claims.
-- Random demo weights only exercise code paths. They are not suitable for quality, safety, or interpretability conclusions.
-- Do not treat lexical heuristics or activation patterns as reliable evidence of intent or deception.
-- Activation steering may harm other capabilities; record baselines and random controls.
-- Do not expose model inference to the public internet without authentication and resource controls.
+    python main.py
 
 ## License
 
