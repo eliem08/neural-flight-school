@@ -9,6 +9,7 @@ from pathlib import Path
 import torch
 from torch import nn
 import matplotlib.pyplot as plt
+from provenance import build_manifest
 
 class TinyAttentionModel(nn.Module):
     def __init__(self, vocab_size=128, width=64, heads=4, layers=2, max_length=128):
@@ -43,7 +44,7 @@ def run(text="attention is a computation", output="outputs/attention-lab", seed=
         fig,ax=plt.subplots(figsize=(max(6,min(14,ids.shape[1]*0.45)),max(4,min(12,ids.shape[1]*0.4))))
         im=ax.imshow(matrix,aspect="auto",origin="upper");ax.set_title(f"Untrained causal attention — layer {li}");ax.set_xlabel("Key position");ax.set_ylabel("Query position");fig.colorbar(im,ax=ax);fig.tight_layout();fig.savefig(out/f"attention-layer-{li}.png",dpi=150);plt.close(fig)
         summaries.append({"layer":li,"shape":list(weights.shape),"mean_attention_entropy":float((-(weights.float().clamp_min(1e-9)*weights.float().clamp_min(1e-9).log()).sum(dim=-1)).mean().cpu())})
-    report={"device":device,"seed":seed,"input_text":text,"token_count":int(ids.shape[1]),"logits_shape":list(logits.shape),"layers":summaries,"warning":"Random weights are untrained; visualizations are educational, not evidence about a trained model."}
+    report={"device":device,"seed":seed,"input_text":text,"token_count":int(ids.shape[1]),"logits_shape":list(logits.shape),"layers":summaries,"manifest":build_manifest("neural-flight-school",device=device,seed=seed,config={"vocab_size":128,"width":64,"heads":4,"layers":2},inputs={"text":text}),"warning":"Random weights are untrained; visualizations are educational, not evidence about a trained model."}
     (out/"report.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
     return report
 def main():
