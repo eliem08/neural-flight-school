@@ -4,20 +4,18 @@
 
 A hands-on, tiny-transformer lab for learning causal attention, tensor shapes, and visualization without downloading pretrained weights.
 
-## Attention lab
+## Interactive dashboard
 
     pip install -r requirements.txt
-    python attention_lab.py --text "attention is a computation"
+    streamlit run dashboard.py
 
-Exports one attention heatmap per layer plus outputs/attention-lab/report.json. Uses a seeded, randomly initialized model and byte-derived token IDs to keep the example self-contained.
+Enter a toy sequence, generate per-layer attention heatmaps, and inspect tensor shapes and entropy summaries.
 
-    python attention_lab.py --text "hello transformer" --device cuda --seed 7
+## Attention lab
 
-The visualizations are intentionally educational: because the model is untrained, they do not show learned linguistic behavior. Try changing width, heads, and layers in TinyAttentionModel and inspect the attention tensor shapes.
+    python attention_lab.py --text "attention is a computation" --device auto --seed 7
 
-## Quickstart
-
-    python main.py
+Exports heatmaps and a JSON report. The model is randomly initialized and untrained, so its visualizations demonstrate tensor mechanics only and do not show learned linguistic behavior.
 
 ## License
 
